@@ -1,0 +1,12 @@
+.ONESHELL:
+
+SHELL := /bin/bash
+PROJECT=$(shell basename ${PWD})
+INTERFACE=$(shell netstat -r | head -n 3 | tail -n 1 | awk '{print $$NF}')
+IP=$(shell ifconfig ${INTERFACE} | grep inet | grep -v inet6 | awk '{print $$2}')
+
+PROJECT_NAME = proxyservice
+PROJECT_CAPITAL_NAME = ProxyService
+
+OPENAPI_SPEC_FILE = ./openapi/documentation/proxyservice-openapi.yaml
+OPENAPI_GEN_DIR = ./openapi/autogen/proxyservice/

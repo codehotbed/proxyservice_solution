@@ -1,0 +1,66 @@
+swagger: "2.0"
+info:
+  description: "A proxy service acquiring information from RabbitMQ RPC Queue"
+  version: "1.0.0"
+  title: "ClientProxyService"
+host: "localhost:8080"
+basePath: "/api/v1"
+tags:
+  - name: rpc
+    description: rpc related endpoints
+schemes:
+  - http
+paths:
+  "/clients":
+    get:
+      tags:
+        - rpc
+      summary: Returns all clients
+      description: Returns all clients 
+      operationId: getClients
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema: 
+            $ref: '#/definitions/QueueResponse'
+        500: 
+          description: Error while communicating with RabbitMQ Queue
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  "/invoices/{client_id}":
+    get:
+      tags:
+        - rpc
+      summary: Returns all invoices
+      description: Returns invoices according to provided client_id
+      operationId: getInvoices
+      parameters:
+        - in: path
+          name: client_id
+          type: string
+          required: true
+          description: An identifier of client that invoices will be returned for
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema: 
+            $ref: '#/definitions/QueueResponse'
+        500: 
+          description: Error while communicating with RabbitMQ Queue
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  QueueResponse:
+    type: object
+  ErrorResponse:
+    type: object
+    properties:
+      Code:
+        type: number
+        format: int64
+      Message:
+        type: string
