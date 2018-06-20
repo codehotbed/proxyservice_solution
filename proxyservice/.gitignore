@@ -1,0 +1,3 @@
+main
+vendor/*
+!vendor/vendor.json

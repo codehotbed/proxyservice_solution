@@ -13,14 +13,16 @@ COPY . .
 
 ARG BUILD
 
+RUN make clean && make swagger
+RUN make prepare
 RUN make build
 
 FROM alpine:3.6
 RUN apk update && apk add ca-certificates
 RUN mkdir ProxyService
 
-COPY --from=go_builder /go/src/ProxyService/proxyservice/cmd ProxyService/
+COPY --from=go_builder /go/src/ProxyService/proxyservice/main ProxyService/
 WORKDIR /ProxyService
 
-CMD ["./proxyservice/main"]
+CMD ["./main"]
 EXPOSE 3000 9090

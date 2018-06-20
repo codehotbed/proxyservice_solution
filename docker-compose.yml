@@ -11,6 +11,9 @@ services:
       - rabbitmq
   proxyservice:
     build: ./proxyservice
+    ports:
+      - "3000:3000"
+      - "9090:9090"
     depends_on:
       - rabbitmq
       - ruby-invoices
